@@ -54,7 +54,7 @@ function ScaffoldHome() {
   ]
   return (
     <div className="absolute inset-0 overflow-y-auto bg-white p-5">
-      <h1 className="text-lg font-medium text-zinc-800 mb-1">茶馆小程序 · 脚手架</h1>
+      <h1 className="text-lg font-medium text-zinc-800 mb-1">星衍茶坊 · 脚手架</h1>
       <p className="text-xs text-zinc-500 mb-5">开发索引。正式入口已经切到 /agree。</p>
       {/* SVG 验证：4 个 figma 拉下来的 VECTOR 节点渲染效果 */}
       <div className="mb-5 rounded-md border border-emerald-200 bg-emerald-50 p-3">
