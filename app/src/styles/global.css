@@ -1,0 +1,119 @@
+@import "tailwindcss";
+
+@theme {
+  /* 品牌主色 — 低饱和橄榄绿 */
+  --color-primary: #BECAB7;
+  --color-primary-light: #FDFFE8;
+
+  /* 字体 */
+  --font-zh: "Source Han Sans CN", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --font-en: "Inter", system-ui, sans-serif;
+}
+
+/* CRITICAL: 把 @theme 变量重复声明在 :root 里作为兜底。
+   Tailwind v4 把 @theme 放进 @layer theme{} 里，即使有 cascade-layers
+   polyfill 展开，老 WebKit 处理 var() 有边界情况。手动写一份 :root
+   变量保证 var(--color-primary) 在任何 WebView 上都能解析。 */
+:root {
+  --color-primary: #BECAB7;
+  --color-primary-light: #FDFFE8;
+
+  --font-zh: "Source Han Sans CN", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --font-en: "Inter", system-ui, sans-serif;
+
+  /* 金色渐变 */
+  --grad-gold: linear-gradient(180deg,
+    #D6A013 0%, #FDC53E 16%, #FFFBC7 42%,
+    #FFFBC7 58%, #FDC53E 85%, #D6A013 100%);
+
+  /* 银色渐变 */
+  --grad-silver: linear-gradient(180deg,
+    #B5B5B7 0%, #DADADB 16%, #FFFFFF 50%,
+    #DADADB 85%, #B5B5B7 100%);
+
+  /* 主题装饰渐变 */
+  --grad-theme: linear-gradient(138deg, #BECAB7 14%, #FDFFE8 89%);
+
+  /* 微信小程序 web-view 顶部避让。默认浏览器/设计模式不偏移。 */
+  --wx-safe-top: 0px;
+}
+
+html[data-embed="wx"] {
+  --wx-safe-top: 88px;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-zh);
+  -webkit-font-smoothing: antialiased;
+  background: #fff;
+  color: #1E1E1E;
+}
+
+/* 嵌入微信小程序 web-view 时留出顶部安全区，避让小程序状态栏 + 胶囊按钮。
+   页面根节点大多是 absolute inset-0；padding 不会移动它们，所以直接偏移路由根容器。 */
+html[data-embed="wx"] .phone-viewport > * {
+  top: var(--wx-safe-top) !important;
+  bottom: 0 !important;
+}
+
+/* wx 嵌入时, 隐藏 H5 自画的 ... ○ 胶囊和状态栏元素, 避免和小程序原生胶囊重复 */
+html[data-wx-webview="true"] .h5-capsule,
+html[data-embed="wx"] .h5-capsule {
+  display: none !important;
+}
+
+html[data-wx-webview="true"] .auth-bg-shot,
+html[data-embed="wx"] .auth-bg-shot {
+  top: -132px !important;
+  height: calc(100% + 132px) !important;
+  object-position: center top;
+}
+
+button[aria-label="返回"],
+button[aria-label="返回首页"] {
+  z-index: 80 !important;
+}
+
+/* 默认：手机 / 小程序 web-view 里 —— 全屏铺满 */
+.pc-stage {
+  width: 100%;
+  min-height: 100vh;
+  background: #fff;
+}
+
+.phone-viewport {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: #fff;
+  overflow: hidden;
+}
+
+/* PC 浏览器（实际窗口 ≥ 500px 宽）—— 手机壳居中 */
+@media (min-width: 500px) {
+  body { background: #0f0f10; }
+  .pc-stage {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: radial-gradient(ellipse at top, #2a2b2e 0%, #0f0f10 70%);
+  }
+  .phone-viewport {
+    width: 375px;
+    height: 816px;
+    min-height: auto;
+    border-radius: 40px;
+    box-shadow:
+      0 0 0 10px #1c1c1e,
+      0 0 0 12px #2a2b2e,
+      0 30px 80px rgba(0, 0, 0, 0.5);
+    /* 让 fixed 子元素（如 TabBar）以 .phone-viewport 为参考框，贴在手机壳底部
+       而不是浏览器窗口底部。transform 会为 fixed 子元素新建 containing block。 */
+    transform: translateZ(0);
+  }
+}

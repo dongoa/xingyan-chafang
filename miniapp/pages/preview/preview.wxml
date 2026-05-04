@@ -1,0 +1,8 @@
+<view class="wrap">
+  <web-view
+    src="{{url}}"
+    bindload="onWebviewLoad"
+    binderror="onError"
+    bindmessage="onMessage"
+  ></web-view>
+</view>

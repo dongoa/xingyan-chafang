@@ -1,0 +1,10 @@
+.wrap {
+  width: 100%;
+  height: 100vh;
+  background: #FDFFE8;
+}
+
+web-view {
+  width: 100%;
+  height: 100%;
+}

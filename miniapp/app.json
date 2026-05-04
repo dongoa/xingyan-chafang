@@ -1,0 +1,15 @@
+{
+  "pages": [
+    "pages/preview/preview"
+  ],
+  "window": {
+    "navigationStyle": "custom",
+    "navigationBarBackgroundColor": "#BECAB7",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "茶馆",
+    "backgroundColor": "#FDFFE8",
+    "backgroundTextStyle": "light"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
