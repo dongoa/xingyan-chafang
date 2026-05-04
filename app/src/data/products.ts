@@ -4,7 +4,7 @@
 export type Product = {
   id: string
   name: string
-  category: 'tea' | 'fruit' | 'pastry' | 'package'
+  category: 'tea' | 'teaware' | 'fruit' | 'pastry' | 'package'
   hero: string             // 商品主图
   price: number
   priceLabel: string       // "卷后价" / "原价" 等
@@ -30,6 +30,20 @@ export const PRODUCTS: Product[] = [
   { id: 'tea_longjing', name: '明前龙井茶 特级西湖龙井',
     category: 'tea', hero: '/assets/figma/figma_img_2959b5c6.webp',
     price: 320, priceLabel: '卷后价' },
+
+  // 茶器
+  { id: 'teaware_qingya', name: '清雅茶具 整套陶瓷功夫茶具',
+    category: 'teaware', hero: '/assets/figma/figma_img_f0563ff0.webp',
+    price: 268, priceLabel: '卷后价' },
+  { id: 'teaware_zhenpin', name: '臻品茶具 紫砂壶手工茶具套装',
+    category: 'teaware', hero: '/assets/figma/figma_img_2b0bb9bd.webp',
+    price: 588, priceLabel: '卷后价' },
+  { id: 'teaware_yuexiang', name: '悦享茶具 整套办公茶具',
+    category: 'teaware', hero: '/assets/figma/figma_img_035e3756.webp',
+    price: 199, priceLabel: '卷后价' },
+  { id: 'teaware_gaiwan', name: '盖碗茶具 景德镇手绘茶碗',
+    category: 'teaware', hero: '/assets/figma/figma_img_f0563ff0.webp',
+    price: 158, priceLabel: '卷后价' },
 
   // 干果
   { id: 'fruit_songzi', name: '松子 大颗粒原味松子仁',

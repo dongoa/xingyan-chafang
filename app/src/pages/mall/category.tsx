@@ -1,77 +1,56 @@
-// 商城分类 · figma frame 79:2903 (茶叶) / 79:2982 (干果) / 79:3062 (糕点)
-// 视觉：顶 sage 弧形条 + 3 tab 切换 + 商品瀑布流（cream 渐变背景）
-// 数据驱动：path /mall/category/:cat → 渲染对应 PRODUCTS 列表
+// 商品分类 · 参考交付设计：双 tab（茶叶 / 茶器）+ 2 列商品瀑布流
+// 单品不可点击进入详情；只在分类间切换。
 import { useNavigate, useParams } from 'react-router-dom'
-import { ChevronLeft, ShoppingCart } from 'lucide-react'
+import { ChevronLeft } from 'lucide-react'
 import { getProductsByCategory, type Product } from '../../data/products'
 
 const HEADER_DECO = '/assets/figma/figma_img_a18d73e7.webp'  // 右上花纹
-const BG_DECO = '/assets/figma/figma_img_787ab1a3.webp'      // 主区底纹
-const COIN = '/assets/figma/figma_img_8f86d5a0.webp'
+const BG_DECO = '/assets/figma/figma_img_787ab1a3.webp'      // 主区底纹（竹叶）
 
-const CATS: Array<{ key: 'tea'|'fruit'|'pastry'; label: string }> = [
+const CATS: Array<{ key: 'tea'|'teaware'; label: string }> = [
   { key: 'tea', label: '茶叶' },
-  { key: 'fruit', label: '干果' },
-  { key: 'pastry', label: '糕点' },
+  { key: 'teaware', label: '茶器' },
 ]
 
 function ProductCard({ p, top, left, cardH, imgH }: { p: Product; top: number; left: number; cardH: number; imgH: number }) {
-  const nav = useNavigate()
-  const sold = `已售${Math.floor(Math.random() * 99 + 1)}件`
   return (
-    <button
-      onClick={() => nav(`/product/${p.id}`)}
-      className="absolute active:opacity-80 text-left"
+    <div
+      className="absolute"
       style={{
         left, top, width: 164, height: cardH, borderRadius: 16,
-        background: '#ffffff', border: 'none', cursor: 'pointer', padding: 0,
-        boxShadow: '0 10px 10px rgba(108,76,53,0.25)',
+        background: '#ffffff', padding: 0,
+        boxShadow: '0 10px 10px rgba(108,76,53,0.18)',
       }}
     >
       <img src={p.hero} alt={p.name} className="absolute"
-        style={{ left: 0, top: 0, width: 164, height: imgH, borderRadius: 8, objectFit: 'cover' }}
+        style={{ left: 0, top: 0, width: 164, height: imgH, borderRadius: '16px 16px 0 0', objectFit: 'cover' }}
         draggable={false} />
       <div className="absolute" style={{
-        left: 8, top: imgH + 13, width: 148,
+        left: 10, top: imgH + 10, width: 144,
         fontFamily: 'var(--font-zh)', fontSize: 13, lineHeight: '18px', color: '#4a3526',
-        whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+        display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
+        overflow: 'hidden', textOverflow: 'ellipsis',
       }}>{p.name}</div>
-      <img src={COIN} alt="" className="absolute" style={{ left: 9, top: imgH + 47, width: 8, height: 9 }} draggable={false} />
       <div className="absolute" style={{
-        left: 17, top: imgH + 39,
-        fontFamily: 'var(--font-zh)', fontSize: 15, lineHeight: '22px', color: '#4a3526', fontWeight: 600,
-      }}>{p.price}</div>
-      <div className="absolute" style={{
-        left: 53, top: imgH + 42,
-        fontFamily: 'var(--font-zh)', fontSize: 13, lineHeight: '18px', color: 'rgba(108,76,53,0.40)',
-      }}>{sold}</div>
-      <div
-        className="absolute flex items-center justify-center"
-        style={{
-          right: 6, top: imgH + 41, width: 24, height: 24, borderRadius: '50%',
-          background: '#4a3526',
-        }}
-      >
-        <ShoppingCart size={13} color="#fff" />
-      </div>
-    </button>
+        left: 10, bottom: 8,
+        fontFamily: 'var(--font-zh)', fontSize: 16, lineHeight: '22px', color: '#4a3526', fontWeight: 600,
+      }}>¥{p.price}</div>
+    </div>
   )
 }
 
 export default function MallCategory() {
   const nav = useNavigate()
-  const { cat } = useParams<{ cat: 'tea'|'fruit'|'pastry' }>()
+  const { cat } = useParams<{ cat: 'tea'|'teaware' }>()
   const active = cat && CATS.find(c => c.key === cat) ? cat : 'tea'
   const products = getProductsByCategory(active as Product['category'])
 
   return (
     <div className="absolute inset-0 overflow-y-auto bg-white">
       <div className="relative" style={{ width: 375, paddingBottom: 24 }}>
-        {/* 顶 sage 弧形条（79:2904 0,28→0, 375×101，简化为矩形 + bottom radius）*/}
+        {/* 顶 sage 横条 */}
         <div className="absolute" style={{
-          left: 0, top: 0, width: 375, height: 85,
-          background: '#748b76',
-          borderBottomLeftRadius: 0, borderBottomRightRadius: 0,
+          left: 0, top: 0, width: 375, height: 85, background: '#748b76',
         }} />
         {/* 右上装饰花纹 */}
         <img
@@ -82,7 +61,7 @@ export default function MallCategory() {
           draggable={false}
         />
 
-        {/* chevron */}
+        {/* 返回 */}
         <button
           onClick={() => nav('/mall')}
           className="absolute flex items-center justify-center active:opacity-70"
@@ -100,7 +79,7 @@ export default function MallCategory() {
           商品分类
         </div>
 
-        {/* 3 tab 切换 (figma y=94→50, 每 tab 124w) */}
+        {/* 2 tab 切换 */}
         <div className="absolute flex" style={{ left: 0, top: 50, width: 372, height: 35 }}>
           {CATS.map(c => {
             const isAct = c.key === active
