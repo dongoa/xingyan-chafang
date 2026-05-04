@@ -28,7 +28,7 @@ if (typeof window !== 'undefined') {
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/chafang">
       <App />
     </BrowserRouter>
   </React.StrictMode>,
